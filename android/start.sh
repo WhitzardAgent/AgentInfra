@@ -99,25 +99,6 @@ echo "[info] waiting MCP (SSE) to be ready on :${MCP_PORT} ..."
 sleep 2
 echo "[info] 启动 MCP（端口：'"$MCP_PORT"'）"
 
-# # 探测 /mcp 与 /sse；隐藏 curl 错误输出，避免刷屏
-# READY_PATH=""
-# for i in $(seq 1 60); do
-#   if curl -sS -i -H 'Accept: text/event-stream' "http://127.0.0.1:${MCP_PORT}/mcp" 2>/dev/null | grep -qi 'text/event-stream'; then
-#     READY_PATH="/mcp"; break
-#   fi
-#   sleep 1
-# done
-
-# if [ -z "$READY_PATH" ]; then
-#   echo "[warn] MCP SSE not detected. Debug info:"
-#   docker exec -it "$NAME" sh -lc 'ps -ef | grep -i "@mobilenext/mobile-mcp" | grep -v grep || true'
-#   docker exec -it "$NAME" sh -lc 'ss -lntp | grep ":${MCP_PORT}" || true'
-#   docker exec -it "$NAME" sh -lc 'tail -n 100 /var/log/mobile-mcp.out 2>/dev/null || true'
-# else
-#   echo "[ok] MCP SSE ready at http://<服务器IP>:${MCP_PORT}${READY_PATH}"
-# fi
-
-
 
 echo
 echo "[ready] 打开 noVNC:    http://<服务器IP>:6080"
