@@ -4,13 +4,13 @@ chmod +x build_docker.sh
 ./build_docker.sh
 ```
 
-2. Run the docker image.
+2. Run the docker container.
 ```bash
 chmod +x start.sh
 ./start.sh
 ```
 
-3. Waiting for the docker image to start.
+1. Waiting for the container to start.
 ```bash
 [info] 等待模拟器就绪（adb 设备 + boot_completed=1）...
 [ok] emulator booted

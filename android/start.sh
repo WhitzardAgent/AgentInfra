@@ -62,19 +62,6 @@ docker exec -it "$NAME" bash -lc '
   echo "[ok] emulator booted"
 '
 
-# 安装 DeviceKit（已装会跳过）
-# docker exec -it "$NAME" bash -lc '
-#   if ! adb shell pm path com.mobilenext.devicekit >/dev/null 2>&1; then
-#     echo "[info] 安装 DeviceKit ..."
-#     if [ -f /opt/devicekit.apk ]; then
-#       adb install -r /opt/devicekit.apk || true
-#     else
-#       curl -fsSL -o /tmp/devicekit.apk https://github.com/mobile-next/devicekit-android/releases/download/0.0.10/mobilenext-devicekit.apk && \
-#       adb install -r /tmp/devicekit.apk || true
-#     fi
-#   fi
-# '
-
 # # 启动 MCP（若已在跑则跳过）
 # docker exec -it "$NAME" bash -lc '
 #   # if pgrep -fa "@mobilenext/mobile-mcp" >/dev/null 2>&1; then
