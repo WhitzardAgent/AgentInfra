@@ -1,10 +1,10 @@
 ### Infrastructure for Agent Safety Research
 
 - [X] Ubuntu (Terminal)
-- [ ] Ubuntu (Desktop)
+- [X] Ubuntu (Desktop)
 - [ ] Windows Server
 - [ ] Windows (Desktop)
-- [ ] Android
+- [X] Android
 - [ ] Web
 - [ ] ... 
 - Integration with YOGA

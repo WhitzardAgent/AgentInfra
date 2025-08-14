@@ -1,0 +1,138 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Security & Sensitive Files
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+config.json
+.env.local
+.env.production
+secrets.yaml
+credentials.json
+auth.json
+
+# Logs & Audit Files
+*.log
+audit.log
+security.log
+access.log
+ubuntu_mcp_audit.log
+
+# Test Files & Temporary Data
+test_*.txt
+tmp_*
+temp_*
+.test/
+.tmp/
+/tmp/
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Coverage & Testing
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Documentation builds
+docs/_build/
+.sphinx/
+site/
+
+# Database files (if any)
+*.db
+*.sqlite
+*.sqlite3
+
+# Lock files
+Pipfile.lock
+poetry.lock
+
+# Package files
+*.tar.gz
+*.zip
+*.rpm
+*.deb
+
+# Runtime files
+*.pid
+*.sock
+fifo_*
+
+# Application specific
+mcp_server_*.log
+claude_desktop_config.json
+server_config.json
+custom_policy.json
+
+# Backup files
+*.backup.*
+*_backup
+backup_*
+
+# Development artifacts
+.dev/
+dev_*
+debug_*
+trace_*
+
+# Security scan results
+.bandit
+.safety
+security_report.*

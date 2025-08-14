@@ -67,7 +67,6 @@ async def run_test_commands(session):
             arguments={"path": test_path},
         )
         print("Read back content:", read_back)
-
 async def main():
     # Connect to a streamable HTTP server
     async with streamablehttp_client("http://127.0.0.1:9000/mcp") as (
