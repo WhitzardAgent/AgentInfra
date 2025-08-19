@@ -1,0 +1,1 @@
+docker build -t ubuntu22-mcp-from-local .

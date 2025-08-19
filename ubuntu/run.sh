@@ -1,0 +1,1 @@
+docker run -it -d -v /Users/morinop/windtunnel/sandbox:/home/sandbox -p 9000:9000 -p 9001:9001 ubuntu22-mcp-from-local

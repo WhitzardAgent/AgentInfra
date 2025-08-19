@@ -1,0 +1,1 @@
+docker run -it -p 5001:5001 -v /Users/morinop/windtunnel/YOGA/ctfspace:/home/sandbox --cap-add NET_ADMIN -d kalibox

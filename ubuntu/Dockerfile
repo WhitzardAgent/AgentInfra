@@ -3,24 +3,41 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/root/.local/bin:${PATH}"
 
-# Install necessary system packages: python3, pip, venv, bash
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-venv bash && \
+    apt-get install -y \
+      python3 python3-pip python3-venv bash curl gnupg \
+      build-essential && \
+    # Install Node.js 20.x + npm
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create sandbox user
+RUN useradd -m -s /bin/bash sandbox
 
 WORKDIR /app
 
-# Copy your local MCP server source code into /app/ubuntu_mcp_server in the image
+# Copy MCP source code
 COPY ubuntu_mcp_server /app/ubuntu_mcp_server
+COPY verify.py /app/verify.py
+# Set permissions to sandbox
+RUN chown -R sandbox:sandbox /app
 
-# Create Python virtual environment and install dependencies
+USER sandbox
+
+# Create Python virtual env and install dependencies
 RUN python3 -m venv /app/ubuntu_mcp_server/.venv && \
     /bin/bash -c "source /app/ubuntu_mcp_server/.venv/bin/activate && pip install --upgrade pip && pip install -r /app/ubuntu_mcp_server/requirements.txt"
 
 WORKDIR /app/ubuntu_mcp_server
 
-# Replace 9000 with the actual port your MCP server listens on:
-EXPOSE 9000
+# Expose MCP server port and supergateway port
+EXPOSE 9000 9001
 
-# Start the MCP server using virtual environment python
-CMD ["/bin/bash", "-c", "source /app/ubuntu_mcp_server/.venv/bin/activate && exec python main.py"]
+# Start both MCP server and supergateway
+# Use a shell script to manage both processes
+CMD ["/bin/bash"]
+# CMD ["/bin/bash", "-c", "\
+#   source /app/ubuntu_mcp_server/.venv/bin/activate && \
+#   python main.py && \
+#   wait"]
