@@ -17,6 +17,36 @@ import fcntl
 import termios
 from fastmcp import FastMCP
 
+import re
+
+def extract_current_dir(lines):
+    """
+    Extracts the current directory from the bash prompt in the given output string.
+    
+    Args:
+        output (str): The full output string from which to extract the current directory.
+        
+    Returns:
+        str: The extracted current directory, or None if no match is found.
+    """
+    # Regular expression to match the typical bash prompt format
+    # This regex assumes a prompt format of "username@hostname:current_dir$"
+    prompt_pattern = re.compile(r'([\w-]+@[\w.-]+):([~\w./-]+)\$')
+    
+
+    if not lines:
+        return None
+    
+    last_line = lines[-1]
+    
+    # Search for the pattern in the last line
+    match = prompt_pattern.search(last_line)
+    if match:
+        # If there is a match, return the second group which corresponds to the current directory
+        return match.group(2)  # group(2) contains the path after the colon (:)
+    else:
+        return None
+    
 def format_terminal_result(result: dict) -> str:
     """
     Format terminal execution result dict into a readable string with emojis.
@@ -37,12 +67,13 @@ def format_terminal_result(result: dict) -> str:
     error = result.get("error")
 
     lines = []
-    lines.append(f"👉 Command: {command}")
     lines.append(f"🖥️ Session: {session}")
-    lines.append(f"✅ Success: {'Yes' if success else 'No'}")
-    lines.append(f"📂 Working Directory: {working_directory}")
-    lines.append(f"🎛️ Interactive Session: {'Yes' if interactive else 'No'}")
-    lines.append(f"⏱️ Wait Duration: {wait_duration:.2f}s")
+    lines.append(f"📂 Current Working Directory: {working_directory}")
+    lines.append(f"👉 Command: {command}")
+    # lines.append(f"✅ Success: {'Yes' if success else 'No'}")
+
+    # lines.append(f"🎛️ Interactive Session: {'Yes' if interactive else 'No'}")
+    # lines.append(f"⏱️ Wait Duration: {wait_duration:.2f}s")
 
     if success:
         lines.append("📰 Output:")
@@ -332,6 +363,10 @@ class SilenceAwareTerminalSimulator:
             # Update interactive status based on output
             session.is_interactive = self._appears_interactive(new_output)
             
+            current_dir = extract_current_dir(new_output)
+            if(current_dir is not None):
+                session.current_dir = current_dir.replace('~', self.cwd)
+            
             # Prepare response
             result = {
                 "success": True,
@@ -342,7 +377,7 @@ class SilenceAwareTerminalSimulator:
                 "silence_achieved": silence_achieved,
                 "wait_duration": round(wait_duration, 2),
                 "silence_threshold": session.silence_threshold,
-                "working_directory": self._get_current_directory()
+                "working_directory": session.current_dir
             }
             
             # Add context-specific information
@@ -636,15 +671,6 @@ class SilenceAwareTerminalSimulator:
                 self.active_session_id = None
         
         return True
-    
-    def _get_current_directory(self) -> str:
-        if not self.active_session_id:
-            return self.cwd
-        try:
-            session = self.sessions[self.active_session_id]
-            return session.current_dir
-        except:
-            return self.cwd
     
     def cleanup(self):
         for session_id in list(self.sessions.keys()):
