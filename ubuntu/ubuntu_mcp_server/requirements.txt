@@ -1,3 +1,4 @@
 mcp>=1.9.0
 fastmcp
 psutil>=5.9.0
+pexpect
